@@ -7,13 +7,18 @@ public class BfGenLine {
 	int depth;
 	
 	public BfGenLine(String rawCode, int rawLineNumber) {
-		this.code = removeSpaces(rawCode);
+		this.code = cleanLine(rawCode);
 		this.depth = calcDepth(rawCode);
 		this.rawLineNumber = rawLineNumber;
 	}
 
-	private String removeSpaces(String code) {
-		return code.replace("\t", "").replace(" ", "");
+	private String cleanLine(String code) {
+		code = code.replace("\t", "");
+		code = code.replace("\n", "");
+		code = code.replace("\r", "");
+		code = code.toLowerCase();
+		
+		return code;
 	}
 
 	private int calcDepth(String rawCode) {
@@ -28,6 +33,11 @@ public class BfGenLine {
 		return depth;
 	}
 	
+	@Override
+	public String toString() {
+		return code;
+	}
+
 	public String getCode() {
 		return code;
 	}
@@ -36,7 +46,7 @@ public class BfGenLine {
 		return depth;
 	}
 
-	public int getRawLineNumber() {
+	public int getLineNum() {
 		return rawLineNumber;
 	}
 }

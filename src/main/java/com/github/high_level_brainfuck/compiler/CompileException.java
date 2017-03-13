@@ -15,4 +15,8 @@ public class CompileException extends Exception {
 	public CompileException(String string, int rawLineNumber) {
 		super("Line " + rawLineNumber + ": " + string);
 	}
+
+	public CompileException(int rawLineNumber) {
+		super("Line " + rawLineNumber + ": Syntax error.");
+	}
 }

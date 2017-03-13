@@ -11,10 +11,6 @@ public abstract class Instruction {
 		this.parent = parent;
 	}
 
-	public List<Instruction> getChildren() {
-		return children;
-	}
-	
 	public void addChild(Instruction child) {
 		children.add(child);
 	}

@@ -11,6 +11,11 @@ import com.github.high_level_brainfuck.compiler.instructions.InstructionRoot;
 import com.github.high_level_brainfuck.compiler.instructions.InstructionsTree;
 
 public class BfGenParser {
+	
+	private boolean isParsingVarsDone = false;
+	
+	private static final String COMMENT_DELIMITER = "#";
+	
 	public BfGenProgram parse(String bfGenCode) throws CompileException {
 		
 		String[] linesArray = bfGenCode.split("\n");
@@ -27,7 +32,9 @@ public class BfGenParser {
 		int rawLineNumber = 1;
 		
 		for (String line : lines) {
-			if (!line.trim().isEmpty()) {
+			String trimmedLine = line.trim();
+			
+			if (!trimmedLine.isEmpty() && !trimmedLine.startsWith(COMMENT_DELIMITER)) {
 				BfGenLine bfGenLine = new BfGenLine(line, rawLineNumber);
 				allBfGenLines.add(bfGenLine);
 				rawLineNumber++;
@@ -44,27 +51,48 @@ public class BfGenParser {
 		int currentDepth = 0;
 		
 		for (BfGenLine bfGenLine : lines) {
-			Instruction instruction = parseSingleLine(bfGenLine);
+			Instruction instruction = parseSingleLine(bfGenLine, currentParent);
 			
-			if (bfGenLine.getDepth() == currentDepth) {
+			if (instruction != null) {
+				if (bfGenLine.getDepth() == currentDepth) {
+					currentParent.addChild(instruction);
+				} else if (bfGenLine.getDepth() == currentDepth + 1) {
+					currentDepth = bfGenLine.getDepth();
+					currentParent = lastInstruction;
+				} else if (bfGenLine.getDepth() < currentDepth) {
+					currentDepth = bfGenLine.getDepth();
+					currentParent = currentParent.getParent();
+					// TODO - Do getParent many times, possibly
+				} else {
+					throw new CompileException("Indentation error", bfGenLine.getLineNum());
+				}
+				
 				currentParent.addChild(instruction);
-			} else if (bfGenLine.getDepth() == currentDepth + 1) {
-				currentParent = lastInstruction;
-			} else if (bfGenLine.getDepth() == currentDepth - 1) {
-				currentParent = currentParent.getParent();
-			} else {
-				throw new CompileException("Indentation error", bfGenLine.getRawLineNumber());
+				lastInstruction = instruction;
 			}
-			
-			currentParent.addChild(instruction);
-			lastInstruction = instruction;
 		}
 		
 		return new InstructionsTree(root);
 	}
 
-	private Instruction parseSingleLine(BfGenLine bfGenLine) {
-		// TODO Auto-generated method stub
-		return null;
+	private Instruction parseSingleLine(BfGenLine bfGenLine, Instruction parent) throws CompileException {
+		
+		VariableParser variableParser = new VariableParser();
+		
+		boolean isVar = variableParser.isVar(bfGenLine);
+		Instruction instruction = null;
+		
+		if (isVar && !isParsingVarsDone) {
+			instruction = variableParser.parse(bfGenLine, parent);
+		} else if (!isVar) {
+			if (!isParsingVarsDone) {
+				isParsingVarsDone = true;
+			}
+		} else if (isVar && !isParsingVarsDone) {
+			throw new CompileException("Cannot declare a variable here. " + 
+							"Group variable declaration at the beginning.", bfGenLine.getLineNum());
+		}
+		
+		return instruction;
 	}
 }
