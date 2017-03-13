@@ -1,0 +1,5 @@
+var i = 16
+
+while i
+	print i
+	i -= 1
