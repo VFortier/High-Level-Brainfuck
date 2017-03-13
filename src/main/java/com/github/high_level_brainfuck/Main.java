@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import com.github.high_level_brainfuck.compiler.Compiler;
 import com.github.high_level_brainfuck.compiler.file.BfFileWriter;
-import com.github.high_level_brainfuck.compiler.BfProgram;
+import com.github.high_level_brainfuck.compiler.generator.BfProgram;
 import com.github.high_level_brainfuck.compiler.CompileException;
 
 public class Main {

@@ -1,4 +1,4 @@
-package com.github.high_level_brainfuck.compiler.parse;
+package com.github.high_level_brainfuck.compiler.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,11 +8,8 @@ import com.github.high_level_brainfuck.compiler.BfGenProgram;
 import com.github.high_level_brainfuck.compiler.CompileException;
 import com.github.high_level_brainfuck.compiler.instructions.Instruction;
 import com.github.high_level_brainfuck.compiler.instructions.InstructionRoot;
-import com.github.high_level_brainfuck.compiler.instructions.InstructionsTree;
 
 public class BfGenParser {
-	
-	private boolean isParsingVarsDone = false;
 	
 	private static final String COMMENT_DELIMITER = "#";
 	
@@ -22,9 +19,8 @@ public class BfGenParser {
 		List<String> lines = Arrays.asList(linesArray);
 		
 		List<BfGenLine> bfGenLines = parseRawLines(lines);
-		InstructionsTree instructionsTree = parseBfGenLines(bfGenLines);
 		
-		return new BfGenProgram(instructionsTree);
+		return parseBfGenLines(bfGenLines);
 	}
 	
 	private List<BfGenLine> parseRawLines(List<String> lines) {
@@ -44,14 +40,14 @@ public class BfGenParser {
 		return allBfGenLines;
 	}
 
-	private InstructionsTree parseBfGenLines(List<BfGenLine> lines) throws CompileException {
-		InstructionRoot root = new InstructionRoot();
-		Instruction currentParent = root;
+	private BfGenProgram parseBfGenLines(List<BfGenLine> lines) throws CompileException {
+		InstructionRoot instructionRoot = new InstructionRoot();
+		Instruction currentParent = instructionRoot;
 		Instruction lastInstruction = null;
 		int currentDepth = 0;
 		
 		for (BfGenLine bfGenLine : lines) {
-			Instruction instruction = parseSingleLine(bfGenLine, currentParent);
+			Instruction instruction = parseSingleLine(bfGenLine, currentParent, instructionRoot);
 			
 			if (instruction != null) {
 				if (bfGenLine.getDepth() == currentDepth) {
@@ -72,25 +68,22 @@ public class BfGenParser {
 			}
 		}
 		
-		return new InstructionsTree(root);
+		return new BfGenProgram(instructionRoot);
 	}
 
-	private Instruction parseSingleLine(BfGenLine bfGenLine, Instruction parent) throws CompileException {
+	private Instruction parseSingleLine(BfGenLine bfGenLine, Instruction parent, 
+			InstructionRoot instructionRoot) 
+		throws CompileException {
 		
 		VariableParser variableParser = new VariableParser();
+		PrintParser printParser = new PrintParser();
 		
-		boolean isVar = variableParser.isVar(bfGenLine);
 		Instruction instruction = null;
 		
-		if (isVar && !isParsingVarsDone) {
+		if (variableParser.isVar(bfGenLine)) {
 			instruction = variableParser.parse(bfGenLine, parent);
-		} else if (!isVar) {
-			if (!isParsingVarsDone) {
-				isParsingVarsDone = true;
-			}
-		} else if (isVar && !isParsingVarsDone) {
-			throw new CompileException("Cannot declare a variable here. " + 
-							"Group variable declaration at the beginning.", bfGenLine.getLineNum());
+		} else if (printParser.isPrint(bfGenLine)) {
+			instruction = printParser.parse(bfGenLine, parent, instructionRoot);
 		}
 		
 		return instruction;

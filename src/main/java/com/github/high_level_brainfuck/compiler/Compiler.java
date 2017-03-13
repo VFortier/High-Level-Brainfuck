@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import com.github.high_level_brainfuck.compiler.file.BfGenFileReader;
-import com.github.high_level_brainfuck.compiler.parse.BfGenParser;
+import com.github.high_level_brainfuck.compiler.generator.BfProgram;
+import com.github.high_level_brainfuck.compiler.generator.BfProgramGenerator;
+import com.github.high_level_brainfuck.compiler.parser.BfGenParser;
 
 public class Compiler {
 	

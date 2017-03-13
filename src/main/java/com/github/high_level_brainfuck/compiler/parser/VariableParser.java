@@ -1,4 +1,4 @@
-package com.github.high_level_brainfuck.compiler.parse;
+package com.github.high_level_brainfuck.compiler.parser;
 
 import com.github.high_level_brainfuck.compiler.CompileException;
 import com.github.high_level_brainfuck.compiler.instructions.Instruction;
@@ -46,6 +46,6 @@ public class VariableParser {
 							"requires exactly one \"=\" operator.", bfGenLine.getLineNum());
 		}
 		
-		return new VarInstruction(parent, varName, value);
+		return new VarInstruction(varName, value);
 	}
 }

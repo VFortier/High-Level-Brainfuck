@@ -1,4 +1,4 @@
-package com.github.high_level_brainfuck.compiler.parse;
+package com.github.high_level_brainfuck.compiler.parser;
 
 public class BfGenLine {
 	

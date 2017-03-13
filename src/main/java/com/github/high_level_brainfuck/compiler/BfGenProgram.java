@@ -1,17 +1,16 @@
 package com.github.high_level_brainfuck.compiler;
 
-import com.github.high_level_brainfuck.compiler.instructions.InstructionsTree;
+import com.github.high_level_brainfuck.compiler.instructions.InstructionRoot;
 
 public class BfGenProgram {	
+	InstructionRoot instructionRoot;
 
-	private InstructionsTree instructionsTree;
-
-	public BfGenProgram(InstructionsTree instructionsTree) {
-		this.instructionsTree = instructionsTree;
+	public BfGenProgram(InstructionRoot instructionRoot) {
+		super();
+		this.instructionRoot = instructionRoot;
 	}
 
-	public InstructionsTree getInstructionsTree() {
-		return instructionsTree;
+	public InstructionRoot getInstructionRoot() {
+		return instructionRoot;
 	}
-	
 }

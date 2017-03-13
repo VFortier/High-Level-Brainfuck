@@ -19,4 +19,8 @@ public class CompileException extends Exception {
 	public CompileException(int rawLineNumber) {
 		super("Line " + rawLineNumber + ": Syntax error.");
 	}
+	
+	public static CompileException newUnknownVar(int rawLineNumber) {
+		return new CompileException("Line " + rawLineNumber + ": Syntax error.", rawLineNumber);
+	}
 }
