@@ -1,5 +1,6 @@
 package com.github.high_level_brainfuck;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.github.high_level_brainfuck.compiler.Compiler;
@@ -11,17 +12,13 @@ public class Main {
 	
 	private final static Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CompileException, IOException {
 		MainArgs mainArgs = new MainArgs(args);
 		Compiler compiler = new Compiler();
 		BfFileWriter fileWriter = new BfFileWriter();
-		
-		try {
-			BfProgram bfProgram = compiler.compileFile(mainArgs.getBfCodeFilePath());
-			fileWriter.writeFile(bfProgram.toString(), "bfcode.b");
-		} catch (CompileException e) {
-			LOGGER.severe(e.getMessage());
-		}
+	
+		BfProgram bfProgram = compiler.compileFile(mainArgs.getBfCodeFilePath());
+		fileWriter.writeFile(bfProgram.getCode(), "bfcode.b");
 	}
 
 	private static class MainArgs {

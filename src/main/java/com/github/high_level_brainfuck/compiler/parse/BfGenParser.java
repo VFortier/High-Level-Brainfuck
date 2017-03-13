@@ -55,7 +55,7 @@ public class BfGenParser {
 			
 			if (instruction != null) {
 				if (bfGenLine.getDepth() == currentDepth) {
-					currentParent.addChild(instruction);
+					// currentParent stays the same
 				} else if (bfGenLine.getDepth() == currentDepth + 1) {
 					currentDepth = bfGenLine.getDepth();
 					currentParent = lastInstruction;

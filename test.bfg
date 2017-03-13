@@ -1,4 +1,5 @@
 int8 i = 16
+int8 woof = 5
 
 #while i
 #	print i

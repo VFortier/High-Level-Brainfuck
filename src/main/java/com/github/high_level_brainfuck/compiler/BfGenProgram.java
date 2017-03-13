@@ -9,5 +9,9 @@ public class BfGenProgram {
 	public BfGenProgram(InstructionsTree instructionsTree) {
 		this.instructionsTree = instructionsTree;
 	}
+
+	public InstructionsTree getInstructionsTree() {
+		return instructionsTree;
+	}
 	
 }

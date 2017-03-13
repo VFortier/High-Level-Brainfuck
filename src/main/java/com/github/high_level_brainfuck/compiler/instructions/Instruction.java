@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Instruction {
-	private Instruction parent;
-	private List<Instruction> children = new ArrayList<>();
+	protected Instruction parent;
+	protected List<Instruction> children = new ArrayList<>();
+	
+	public abstract String generateBfCode();
 	
 	public Instruction(Instruction parent) {
 		this.parent = parent;

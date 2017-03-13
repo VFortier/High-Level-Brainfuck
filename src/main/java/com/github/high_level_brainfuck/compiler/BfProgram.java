@@ -2,14 +2,22 @@ package com.github.high_level_brainfuck.compiler;
 
 public class BfProgram {
 	
-	String rawCode = "";
+	private String bfCode;
 	
 	public BfProgram() {
 		
 	}
 	
+	public BfProgram(String bfCode) {
+		this.bfCode = bfCode;
+	}
+
 	@Override
 	public String toString() {
-		return rawCode;
+		return bfCode;
+	}
+
+	public String getCode() {
+		return bfCode;
 	}
 }

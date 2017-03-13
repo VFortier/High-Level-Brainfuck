@@ -12,21 +12,33 @@ public class VariableParser {
 	
 	public Instruction parse(BfGenLine bfGenLine, Instruction parent) throws CompileException {
 		String varName;
-		String value;
+		String valueStr;
+		int value;
 		
 		String code = bfGenLine.getCode();
 		String[] eqSplit = code.split("=");
 		
 		if (eqSplit.length == 2) {
-			String varVarName = eqSplit[0];
-			value = eqSplit[1];
 			
-			String[] varVarNameSplit = varVarName.trim().split(" ");
+			// Get the var name
+			
+			String varVarName = eqSplit[0].trim();
+			valueStr = eqSplit[1].trim();
+			
+			String[] varVarNameSplit = varVarName.split(" ");
 			
 			if (varVarNameSplit.length == 2) {
 				varName = varVarNameSplit[1];
 			} else {
 				throw new CompileException(bfGenLine.getLineNum());
+			}
+			
+			// Get the var value
+			try {
+				value = Integer.parseInt(valueStr);
+			} catch (NumberFormatException e) {
+				throw new CompileException("Invalid variable value \"" + valueStr 
+						+ "\"", bfGenLine.getLineNum());
 			}
 			
 		} else {

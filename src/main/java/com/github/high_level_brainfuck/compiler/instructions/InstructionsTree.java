@@ -7,4 +7,8 @@ public class InstructionsTree {
 	public InstructionsTree(InstructionRoot root) {
 		this.root = root;
 	}
+
+	public InstructionRoot getRoot() {
+		return root;
+	}
 }
