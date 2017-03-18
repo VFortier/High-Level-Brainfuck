@@ -33,8 +33,8 @@ public class BfGenParser {
 			if (!trimmedLine.isEmpty() && !trimmedLine.startsWith(COMMENT_DELIMITER)) {
 				BfGenLine bfGenLine = new BfGenLine(line, rawLineNumber);
 				allBfGenLines.add(bfGenLine);
-				rawLineNumber++;
 			}
+			rawLineNumber++;
 		}
 		
 		return allBfGenLines;
@@ -56,11 +56,12 @@ public class BfGenParser {
 					currentDepth = bfGenLine.getDepth();
 					currentParent = lastInstruction;
 				} else if (bfGenLine.getDepth() < currentDepth) {
-					currentDepth = bfGenLine.getDepth();
-					currentParent = currentParent.getParent();
-					// TODO - Do getParent many times, possibly
+					while (bfGenLine.getDepth() < currentDepth) {
+						currentDepth = currentDepth--;
+						currentParent = currentParent.getParent();
+					}
 				} else {
-					throw new CompileException("Indentation error", bfGenLine.getLineNum());
+					throw new CompileException("Indentation error", bfGenLine);
 				}
 				
 				currentParent.addChild(instruction);
@@ -84,6 +85,9 @@ public class BfGenParser {
 			instruction = variableParser.parse(bfGenLine, parent);
 		} else if (printParser.isPrint(bfGenLine)) {
 			instruction = printParser.parse(bfGenLine, parent, instructionRoot);
+		} else {
+			throw new CompileException("Unrecognized expression \"" + 
+					bfGenLine.getCode() + "\"", bfGenLine);
 		}
 		
 		return instruction;

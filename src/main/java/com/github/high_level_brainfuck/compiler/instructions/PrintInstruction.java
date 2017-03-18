@@ -13,8 +13,7 @@ public class PrintInstruction extends Instruction {
 
 	@Override
 	public String generateBfCode(BfProgram bfProgram) {
-		// TODO Auto-generated method stub
-		return null;
+		return bfProgram.getBfDataPointer().goTo(variable) + ".";
 	}
 
 }

@@ -23,10 +23,10 @@ public class PrintParser {
 			var = instructionRoot.getVarByName(varName);
 			
 			if (var == null) {
-				throw new CompileException("", bfGenLine.getLineNum());
+				throw new CompileException("[Print] Unknown var", bfGenLine.getLineNum());
 			}
 		} else {
-			throw new CompileException(bfGenLine.getLineNum());
+			throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 		}
 		
 		return new PrintInstruction(parent, var);

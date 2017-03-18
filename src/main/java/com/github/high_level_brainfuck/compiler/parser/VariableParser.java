@@ -30,7 +30,7 @@ public class VariableParser {
 			if (varVarNameSplit.length == 2) {
 				varName = varVarNameSplit[1];
 			} else {
-				throw new CompileException(bfGenLine.getLineNum());
+				throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 			}
 			
 			// Get the var value
