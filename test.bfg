@@ -1,6 +1,7 @@
-int8 i = 16
-int8 woof = 5
+int8 letter1 = 65
+int8 cntdown = 10
 
-#while i
-#	print i
-#	i -= 1
+while cntdown
+	print letter1
+	letter1 += 2
+	cntdown -= 1

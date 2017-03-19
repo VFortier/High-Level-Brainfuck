@@ -78,13 +78,23 @@ public class BfGenParser {
 		
 		VariableParser variableParser = new VariableParser();
 		PrintParser printParser = new PrintParser();
+		VarAssignParser varAssignParser = new VarAssignParser();
+		WhileParser whileParser = new WhileParser();
+		IfParser ifParser = new IfParser();
 		
 		Instruction instruction = null;
 		
+		// Determine what type of instruction is on this line, and parse it
 		if (variableParser.isVar(bfGenLine)) {
 			instruction = variableParser.parse(bfGenLine, parent);
 		} else if (printParser.isPrint(bfGenLine)) {
 			instruction = printParser.parse(bfGenLine, parent, instructionRoot);
+		} else if (varAssignParser.isVarAssign(bfGenLine)) {
+			instruction = varAssignParser.parse(bfGenLine, parent, instructionRoot);
+		} else if (whileParser.isWhile(bfGenLine)) {
+			instruction = whileParser.parse(bfGenLine, parent, instructionRoot);
+		} else if (ifParser.isIf(bfGenLine)) {
+			instruction = ifParser.parse(bfGenLine, parent, instructionRoot);
 		} else {
 			throw new CompileException("Unrecognized expression \"" + 
 					bfGenLine.getCode() + "\"", bfGenLine);

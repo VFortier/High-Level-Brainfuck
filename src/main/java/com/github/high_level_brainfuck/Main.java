@@ -19,6 +19,7 @@ public class Main {
 	
 		BfProgram bfProgram = compiler.compileFile(mainArgs.getBfCodeFilePath());
 		fileWriter.writeFile(bfProgram.getCode(), "bfcode.b");
+		LOGGER.info("Brainfuck successfully codes generated in bfcode.b");
 	}
 
 	private static class MainArgs {

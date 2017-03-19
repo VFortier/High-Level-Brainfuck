@@ -22,4 +22,14 @@ public abstract class Instruction {
 	public Instruction getParent() {
 		return parent;
 	}
+	
+	protected String generateChildrenBfCode(BfProgram bfProgram) {
+		String bfCode = "";
+		
+		for (Instruction instruction : children) {
+			bfCode += instruction.generateBfCode(bfProgram);
+		}
+		
+		return bfCode;
+	}
 }

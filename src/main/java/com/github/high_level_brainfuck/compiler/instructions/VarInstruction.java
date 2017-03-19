@@ -1,5 +1,7 @@
 package com.github.high_level_brainfuck.compiler.instructions;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.github.high_level_brainfuck.compiler.generator.BfDataPointer;
 import com.github.high_level_brainfuck.compiler.generator.BfProgram;
 
@@ -20,11 +22,11 @@ public class VarInstruction extends Instruction {
 		BfDataPointer dataPointer = bfProgram.getBfDataPointer();
 		
 		this.cellPos = dataPointer.getCellPos();
+
+		bfCode += StringUtils.repeat("+", value);
+		bfCode += dataPointer.moveRight();
 		
-		for (int i = 0; i < value; i++) {
-			bfCode += "+";
-		}
-		return bfCode + dataPointer.moveRight();
+		return bfCode;
 	}
 
 	public String getVarName() {
