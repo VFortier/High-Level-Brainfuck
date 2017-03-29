@@ -1,0 +1,83 @@
+int8 isNotHaikuW = 0
+int8 isHaikuW = 0
+int8 curChar
+int8 asciiResult = '0'
+int8 spaceCount = 4
+int8 lfCount = 2
+int8 isFirstLf = 1
+int8 isFirstCharOfWord = 1
+
+read curChar
+
+while curChar
+  if isFirstCharOfWord
+    curChar -= 10
+    if curChar  
+      curChar -= 22
+      
+      if curChar
+        isFirstCharOfWord -= 1
+      else
+        isNotHaikuW += 1
+      
+    else
+      isNotHaikuW += 1
+  else
+    curChar -= 10
+    // if curChar is not lf
+    if curChar
+      curChar -= 22
+      
+      // if curChar is not space
+      if curChar
+        // curChar is a letter in a word
+      else
+        if spaceCount
+          spaceCount -= 1
+          isFirstCharOfWord += 1
+        else
+          // Too many words on the line
+          isNotHaikuW += 1
+    // if curChar is lf
+    else
+      if spaceCount
+        // Not enough words on the line 
+        isNotHaikuW += 1
+      else
+        if lfCount
+          if isFirstLf
+            // Second line should contain 6 spaces (i.e. 7 words)
+            spaceCount += 6
+          else
+            // Third line should contain 4 spaces (i.e. 5 words)
+            spaceCount += 4
+        
+          isFirstCharOfWord += 1
+          lfCount -= 1
+        else
+          // Too many lines
+          isNotHaikuW += 1
+  
+  
+  if isNotHaikuW
+    curChar = 0
+  else
+    read curChar
+  
+  
+  
+if isNotHaikuW
+else 
+  if spaceCount
+    // Not enough words on the last line
+  else
+    if lfCount
+      // Not enough lines
+    else
+      isHaikuW += 1
+
+if isHaikuW
+  asciiResult += 1
+  print asciiResult
+else
+  print asciiResult

@@ -32,15 +32,18 @@ public class BfDataPointer {
 	}
 
 	public String goTo(VarInstruction variable) {
-		long varCellPos = variable.getCellPos();
+		return goToCell(variable.getCellPos());
+	}
+
+	public String goToCell(long enterElseCellPos) {
 		String bfCode = "";
 		
-		if (cellPos > varCellPos) {
-			while (cellPos > varCellPos) {
+		if (cellPos > enterElseCellPos) {
+			while (cellPos > enterElseCellPos) {
 				bfCode += moveLeft();
 			}
 		} else {
-			while (cellPos < varCellPos) {
+			while (cellPos < enterElseCellPos) {
 				bfCode += moveRight();
 			}
 		}
@@ -50,5 +53,10 @@ public class BfDataPointer {
 
 	public long getCellPos() {
 		return cellPos;
+	}
+
+	public String addAtCurrentCell(int i) {
+		
+		return "";
 	}
 }

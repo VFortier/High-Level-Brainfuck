@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.high_level_brainfuck.compiler.BfGenProgram;
 import com.github.high_level_brainfuck.compiler.CompileException;
+import com.github.high_level_brainfuck.compiler.instructions.IfInstruction;
 import com.github.high_level_brainfuck.compiler.instructions.Instruction;
 import com.github.high_level_brainfuck.compiler.instructions.InstructionRoot;
 
@@ -47,7 +48,8 @@ public class BfGenParser {
 		int currentDepth = 0;
 		
 		for (BfGenLine bfGenLine : lines) {
-			Instruction instruction = parseSingleLine(bfGenLine, currentParent, instructionRoot);
+			Instruction instruction = parseSingleLine(bfGenLine, currentParent, 
+					instructionRoot, bfGenLine.getDepth());
 			
 			if (instruction != null) {
 				if (bfGenLine.getDepth() == currentDepth) {
@@ -57,7 +59,7 @@ public class BfGenParser {
 					currentParent = lastInstruction;
 				} else if (bfGenLine.getDepth() < currentDepth) {
 					while (bfGenLine.getDepth() < currentDepth) {
-						currentDepth = currentDepth--;
+						currentDepth--;
 						currentParent = currentParent.getParent();
 					}
 				} else {
@@ -73,7 +75,7 @@ public class BfGenParser {
 	}
 
 	private Instruction parseSingleLine(BfGenLine bfGenLine, Instruction parent, 
-			InstructionRoot instructionRoot) 
+			InstructionRoot instructionRoot, int depth) 
 		throws CompileException {
 		
 		VariableParser variableParser = new VariableParser();
@@ -95,6 +97,16 @@ public class BfGenParser {
 			instruction = whileParser.parse(bfGenLine, parent, instructionRoot);
 		} else if (ifParser.isIf(bfGenLine)) {
 			instruction = ifParser.parse(bfGenLine, parent, instructionRoot);
+		} else if (ifParser.isElse(bfGenLine)) {
+			// Retrieve this associated "if" and change its state
+			Instruction ifInstruction = instructionRoot.getLastInstruction(depth + 1);
+			
+			if (ifInstruction != null && ifInstruction.getClass().equals(IfInstruction.class)) {
+				((IfInstruction) ifInstruction).addChildToElse();
+			} else {
+				throw new CompileException("Cannot find the matching if for the else expression.", 
+						bfGenLine);
+			}
 		} else {
 			throw new CompileException("Unrecognized expression \"" + 
 					bfGenLine.getCode() + "\"", bfGenLine);

@@ -1,0 +1,15 @@
+int8 letter1 = 65
+int8 letter2 = 68
+int8 zeroOrOne = 0
+int8 countDown = 5
+
+while countDown
+	if zeroOrOne
+		print letter1
+		letter1 += 1
+		zeroOrOne += 1
+	else
+		print letter2
+		letter2 += 1
+		zeroOrOne -= 1
+	countDown -= 1

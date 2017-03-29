@@ -21,8 +21,10 @@ public class InstructionRoot extends Instruction {
 	
 	@Override
 	public void addChild(Instruction instruction) {
+		children.add(instruction);
+		
 		if (instruction.getClass().equals(VarInstruction.class)) {
-			varInstructions.add((VarInstruction) instruction);
+			varInstructions.add((VarInstruction) instruction);	
 		} else {
 			logicInstructions.add(instruction);
 		}
@@ -59,5 +61,34 @@ public class InstructionRoot extends Instruction {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public int getDepth() {
+		return 0;
+	}
+
+	/**
+	 * Returns the last added instruction at the specified depth.
+	 * Returns null if the instruction is impossible to find.
+	 * 
+	 * @param currentDepth
+	 */
+	public Instruction getLastInstruction(int depth) {
+		int currentDepth = 0;
+		Instruction currentInstruction = this;
+		
+		while (depth != currentDepth) {
+			List<Instruction> curChildren = currentInstruction.getChildren();
+			
+			if (curChildren.isEmpty()) {
+				return null;
+			}
+			
+			currentInstruction = curChildren.get(curChildren.size() - 1);
+			currentDepth++;
+		}
+		
+		return currentInstruction;
 	}
 }

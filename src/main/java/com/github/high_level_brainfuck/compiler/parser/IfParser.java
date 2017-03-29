@@ -1,20 +1,24 @@
 package com.github.high_level_brainfuck.compiler.parser;
 
 import com.github.high_level_brainfuck.compiler.CompileException;
+import com.github.high_level_brainfuck.compiler.instructions.IfInstruction;
 import com.github.high_level_brainfuck.compiler.instructions.Instruction;
 import com.github.high_level_brainfuck.compiler.instructions.InstructionRoot;
 import com.github.high_level_brainfuck.compiler.instructions.VarInstruction;
-import com.github.high_level_brainfuck.compiler.instructions.WhileInstruction;
 
 public class IfParser {
 	public boolean isIf(BfGenLine bfGenLine) {
 		return bfGenLine.getCode().startsWith(BfGenKeywords.IF);
 	}
+
+	public boolean isElse(BfGenLine bfGenLine) {
+		return bfGenLine.getCode().equals(BfGenKeywords.ELSE);
+	}
 	
 	public Instruction parse(BfGenLine bfGenLine, Instruction parent, InstructionRoot instructionRoot) 
 			throws CompileException {
 		
-		/*String code = bfGenLine.getCode();
+		String code = bfGenLine.getCode();
 		String[] codeSplit = code.split(" ");
 		VarInstruction var = null;
 		
@@ -25,12 +29,12 @@ public class IfParser {
 			if (var == null) {
 				throw new CompileException("[If] Unknown var", bfGenLine.getLineNum());
 			}
+			
+			var.setIfable(true);
 		} else {
 			throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 		}
 		
-		return new IfInstruction(parent, var);*/
-		
-		return null;
+		return new IfInstruction(parent, var);
 	}
 }

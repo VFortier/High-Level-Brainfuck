@@ -8,13 +8,18 @@ import com.github.high_level_brainfuck.compiler.generator.BfProgram;
 public class VarInstruction extends Instruction {
 
 	private String varName;
-	private int value;
+	private int initValue;
 	private long cellPos;
+	
+	/**
+	 * True when the variable is used in an if statement in the BFGen code
+	 */
+	private boolean isIfable;
 
-	public VarInstruction(String varName, int value) {
+	public VarInstruction(String varName, int initValue) {
 		super(null);
 		this.varName = varName;
-		this.value = value;
+		this.initValue = initValue;
 	}
 
 	public String generateBfCode(BfProgram bfProgram) {
@@ -23,8 +28,15 @@ public class VarInstruction extends Instruction {
 		
 		this.cellPos = dataPointer.getCellPos();
 
-		bfCode += StringUtils.repeat("+", value);
+		bfCode += StringUtils.repeat("+", initValue);
 		bfCode += dataPointer.moveRight();
+		
+		if (isIfable) {
+			// Reserve spot for two bf "variable" that will be used to
+			// control the enter/exit conditions of if and else
+			bfCode += dataPointer.moveRight();
+			bfCode += dataPointer.moveRight();
+		}
 		
 		return bfCode;
 	}
@@ -35,5 +47,22 @@ public class VarInstruction extends Instruction {
 
 	public long getCellPos() {
 		return cellPos;
+	}
+
+	public long getEnterElseCellPos() {
+		return cellPos + 1;
+	}
+
+	public long getAvoidElseCellPos() {
+		return cellPos + 2;
+	}
+
+	public void setIfable(boolean isIfable) {
+		this.isIfable = isIfable;
+	}
+	
+	@Override
+	public String toString() {
+		return varName;
 	}
 }

@@ -1,7 +1,0 @@
-int8 letter1 = 65
-int8 cntdown = 10
-
-while cntdown
-	print letter1
-	letter1 += 2
-	cntdown -= 1
