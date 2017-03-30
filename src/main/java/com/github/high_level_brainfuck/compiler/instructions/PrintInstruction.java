@@ -6,14 +6,14 @@ public class PrintInstruction extends Instruction {
 
 	private VarInstruction variable;
 
-	public PrintInstruction(Instruction parent, VarInstruction variable) {
-		super(parent);
+	public PrintInstruction(VarInstruction variable) {
 		this.variable = variable;
 	}
 
 	@Override
 	public String generateBfCode(BfProgram bfProgram) {
-		return bfProgram.getBfDataPointer().goTo(variable) + ".";
+		int baseIndent = getDepth() - 1;
+		return indent(baseIndent) + bfProgram.getBfDataPointer().goTo(variable) + "." + LINE_BREAK;
 	}
 
 }

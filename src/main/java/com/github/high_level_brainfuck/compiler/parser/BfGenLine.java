@@ -16,7 +16,6 @@ public class BfGenLine {
 		code = code.replace("\t", "");
 		code = code.replace("\n", "");
 		code = code.replace("\r", "");
-		code = code.toLowerCase();
 		
 		return code;
 	}

@@ -29,6 +29,6 @@ public class PrintParser {
 			throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 		}
 		
-		return new PrintInstruction(parent, var);
+		return new PrintInstruction(var);
 	}
 }

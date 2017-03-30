@@ -10,9 +10,8 @@ public class VarAssignInstruction extends Instruction {
 	private int value;
 	private Boolean isIncrement;
 
-	public VarAssignInstruction(Instruction parent, VarInstruction var, 
+	public VarAssignInstruction(VarInstruction var, 
 			int value, Boolean isIncrement) {
-		super(parent);
 		this.variable = var;
 		this.value = value;
 		this.isIncrement = isIncrement;
@@ -21,15 +20,16 @@ public class VarAssignInstruction extends Instruction {
 	@Override
 	public String generateBfCode(BfProgram bfProgram) {
 		String bfCode = "";
+		int baseIndent = getDepth() - 1;
 		
-		bfCode += bfProgram.getBfDataPointer().goTo(variable);
+		bfCode += indent(baseIndent) + bfProgram.getBfDataPointer().goTo(variable);
 		if (isIncrement) {
 			bfCode += StringUtils.repeat("+", value);
 		} else {
 			bfCode += StringUtils.repeat("-", value);
 		}
 		
-		return bfCode;
+		return bfCode + LINE_BREAK;
 	}
 
 }

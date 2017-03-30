@@ -29,6 +29,6 @@ public class WhileParser {
 			throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 		}
 		
-		return new WhileInstruction(parent, var);
+		return new WhileInstruction(var);
 	}
 }

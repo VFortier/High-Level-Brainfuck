@@ -3,17 +3,16 @@ package com.github.high_level_brainfuck.compiler.instructions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.github.high_level_brainfuck.compiler.generator.BfProgram;
 
 public abstract class Instruction {
-	protected Instruction parent;
+	protected static final String LINE_BREAK = "\n";
+	protected Instruction parent = null;
 	protected List<Instruction> children = new ArrayList<>();
 	
 	public abstract String generateBfCode(BfProgram bfProgram);
-	
-	public Instruction(Instruction parent) {
-		this.parent = parent;
-	}
 
 	public List<Instruction> getChildren() {
 		return children;
@@ -44,5 +43,9 @@ public abstract class Instruction {
 		}
 		
 		return bfCode;
+	}
+	
+	protected static String indent(int indentLevel) {
+		return StringUtils.repeat("  ", indentLevel);
 	}
 }

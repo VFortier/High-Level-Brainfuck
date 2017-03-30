@@ -18,8 +18,7 @@ public class IfInstruction extends Instruction {
 	 */
 	private boolean addToElseClause = false;
 
-	public IfInstruction(Instruction parent, VarInstruction variable) {
-		super(parent);
+	public IfInstruction(VarInstruction variable) {
 		this.variable = variable;
 	}
 
@@ -30,7 +29,7 @@ public class IfInstruction extends Instruction {
 
 	@Override
 	public void addChild(Instruction child) {
-		children.add(child);
+		super.addChild(child);
 		
 		if (!addToElseClause) {
 			ifInstructions.add(child);
@@ -44,24 +43,27 @@ public class IfInstruction extends Instruction {
 		
 		String bfCode = "";
 		BfDataPointer bfDataPointer = bfProgram.getBfDataPointer();
+		int baseIndent = getDepth() - 1;
 		
-		bfCode += bfDataPointer.goTo(variable);
-		bfCode += "[";
+		bfCode += indent(baseIndent) + bfDataPointer.goTo(variable) + LINE_BREAK;
+		bfCode += indent(baseIndent) + "[" + LINE_BREAK;
 		bfCode += generateBfCode(ifInstructions, bfProgram);
-		bfCode += bfDataPointer.goToCell(variable.getAvoidElseCellPos());
-		bfCode += "-";
-		bfCode += bfDataPointer.goToCell(variable.getEnterElseCellPos());
-		bfCode += "]";
-		bfCode += bfDataPointer.moveRight();
-		bfCode += "+";
-		bfCode += "[";
+		bfCode += indent(baseIndent+1) + bfDataPointer.goToCell(variable.getAvoidElseCellPos());
+		bfCode +=   "-";
+		bfCode +=   bfDataPointer.goToCell(variable.getEnterElseCellPos()) + LINE_BREAK;
+		bfCode += indent(baseIndent) + "]" + LINE_BREAK;
+		bfCode += indent(baseIndent) + bfDataPointer.moveRight();
+		bfCode +=   "+" + LINE_BREAK;
+		bfCode += indent(baseIndent) + "[" + LINE_BREAK;
+		
 		// The weird part: realign the cursor with the context of the "else"
 		bfDataPointer.moveLeft();
+		
 		bfCode += generateBfCode(elseInstructions, bfProgram);
-		bfCode += bfDataPointer.goToCell(variable.getEnterElseCellPos());
-		bfCode += "-";
-		bfCode += bfDataPointer.goToCell(variable.getAvoidElseCellPos());
-		bfCode += "]";
+		bfCode += indent(baseIndent+1) + bfDataPointer.goToCell(variable.getEnterElseCellPos());
+		bfCode +=   "-";
+		bfCode +=    bfDataPointer.goToCell(variable.getAvoidElseCellPos()) + LINE_BREAK;
+		bfCode += indent(baseIndent) + "]" + LINE_BREAK;
 		
 		return bfCode;
 	}

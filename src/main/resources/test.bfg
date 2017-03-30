@@ -1,7 +1,7 @@
-int8 letter1 = 65
-int8 letter2 = 68
+int8 letter1 = 'A'
+int8 letter2 = 'B'
 int8 zeroOrOne = 0
-int8 countDown = 5
+int8 countDown = 11
 
 while countDown
 	if zeroOrOne

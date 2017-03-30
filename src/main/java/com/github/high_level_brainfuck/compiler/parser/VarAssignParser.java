@@ -13,7 +13,7 @@ public class VarAssignParser {
 				bfGenLine.getCode().contains(BfGenKeywords.MINUS_EQ);
 	}
 	
-	public Instruction parse(BfGenLine bfGenLine, Instruction parent, InstructionRoot instructionRoot) 
+	public Instruction parse(BfGenLine bfGenLine, InstructionRoot instructionRoot) 
 			throws CompileException {
 		
 		String code = bfGenLine.getCode();
@@ -54,6 +54,6 @@ public class VarAssignParser {
 			throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 		}
 		
-		return new VarAssignInstruction(parent, var, value, isIncrement);
+		return new VarAssignInstruction(var, value, isIncrement);
 	}
 }

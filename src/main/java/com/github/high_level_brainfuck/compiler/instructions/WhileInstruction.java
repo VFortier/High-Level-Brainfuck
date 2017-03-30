@@ -6,8 +6,7 @@ public class WhileInstruction extends Instruction {
 
 	private VarInstruction variable;
 
-	public WhileInstruction(Instruction parent, VarInstruction variable) {
-		super(parent);
+	public WhileInstruction(VarInstruction variable) {
 		this.variable = variable;
 	}
 
@@ -15,12 +14,13 @@ public class WhileInstruction extends Instruction {
 	public String generateBfCode(BfProgram bfProgram) {
 		
 		String bfCode = "";
+		int baseIndent = getDepth() - 1;
 		
-		bfCode += bfProgram.getBfDataPointer().goTo(variable);
-		bfCode += "[";
+		bfCode += indent(baseIndent) + bfProgram.getBfDataPointer().goTo(variable) + LINE_BREAK;
+		bfCode += indent(baseIndent) + "[" + LINE_BREAK;
 		bfCode += generateChildrenBfCode(bfProgram);
-		bfCode += bfProgram.getBfDataPointer().goTo(variable);
-		bfCode += "]";
+		bfCode += indent(baseIndent+1) + bfProgram.getBfDataPointer().goTo(variable) + LINE_BREAK;
+		bfCode += indent(baseIndent) + "]" + LINE_BREAK;
 		
 		return bfCode;
 	}

@@ -35,7 +35,12 @@ public class VariableParser {
 			
 			// Get the var value
 			try {
-				value = Integer.parseInt(valueStr);
+				if (valueIsAChar(valueStr)) {
+					// Get ascii value of provided char
+					value = (int) valueStr.charAt(1);
+				} else {
+					value = Integer.parseInt(valueStr);
+				}
 			} catch (NumberFormatException e) {
 				throw new CompileException("Invalid variable value \"" + valueStr 
 						+ "\"", bfGenLine.getLineNum());
@@ -47,5 +52,10 @@ public class VariableParser {
 		}
 		
 		return new VarInstruction(varName, value);
+	}
+	
+	private boolean valueIsAChar(String valueStr) {
+		return valueStr.charAt(0) == '\'' && valueStr.charAt(valueStr.length()-1) == '\'' &&
+				valueStr.length() == 3;
 	}
 }

@@ -17,7 +17,6 @@ public class VarInstruction extends Instruction {
 	private boolean isIfable;
 
 	public VarInstruction(String varName, int initValue) {
-		super(null);
 		this.varName = varName;
 		this.initValue = initValue;
 	}
@@ -29,13 +28,13 @@ public class VarInstruction extends Instruction {
 		this.cellPos = dataPointer.getCellPos();
 
 		bfCode += StringUtils.repeat("+", initValue);
-		bfCode += dataPointer.moveRight();
+		bfCode += dataPointer.moveRight() + LINE_BREAK;
 		
 		if (isIfable) {
 			// Reserve spot for two bf "variable" that will be used to
 			// control the enter/exit conditions of if and else
-			bfCode += dataPointer.moveRight();
-			bfCode += dataPointer.moveRight();
+			bfCode += dataPointer.moveRight() + LINE_BREAK;
+			bfCode += dataPointer.moveRight() + LINE_BREAK;
 		}
 		
 		return bfCode;

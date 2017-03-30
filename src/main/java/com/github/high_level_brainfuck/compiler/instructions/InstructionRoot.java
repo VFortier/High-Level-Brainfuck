@@ -10,18 +10,16 @@ public class InstructionRoot extends Instruction {
 	private List<Instruction> logicInstructions = new ArrayList<>();
 
 	public InstructionRoot() {
-		super(null);
 	}
 
 	public InstructionRoot(List<VarInstruction> varInstructions, List<Instruction> logicInstructions) {
-		super(null);
 		this.varInstructions = varInstructions;
 		this.logicInstructions = logicInstructions;
 	}
 	
 	@Override
 	public void addChild(Instruction instruction) {
-		children.add(instruction);
+		super.addChild(instruction);
 		
 		if (instruction.getClass().equals(VarInstruction.class)) {
 			varInstructions.add((VarInstruction) instruction);	

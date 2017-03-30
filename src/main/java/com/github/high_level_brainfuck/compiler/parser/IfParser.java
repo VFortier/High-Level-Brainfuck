@@ -15,7 +15,7 @@ public class IfParser {
 		return bfGenLine.getCode().equals(BfGenKeywords.ELSE);
 	}
 	
-	public Instruction parse(BfGenLine bfGenLine, Instruction parent, InstructionRoot instructionRoot) 
+	public Instruction parse(BfGenLine bfGenLine, InstructionRoot instructionRoot) 
 			throws CompileException {
 		
 		String code = bfGenLine.getCode();
@@ -35,6 +35,6 @@ public class IfParser {
 			throw CompileException.newSyntaxError(bfGenLine.getLineNum());
 		}
 		
-		return new IfInstruction(parent, var);
+		return new IfInstruction(var);
 	}
 }

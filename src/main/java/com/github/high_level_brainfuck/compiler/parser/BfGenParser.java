@@ -92,11 +92,11 @@ public class BfGenParser {
 		} else if (printParser.isPrint(bfGenLine)) {
 			instruction = printParser.parse(bfGenLine, parent, instructionRoot);
 		} else if (varAssignParser.isVarAssign(bfGenLine)) {
-			instruction = varAssignParser.parse(bfGenLine, parent, instructionRoot);
+			instruction = varAssignParser.parse(bfGenLine, instructionRoot);
 		} else if (whileParser.isWhile(bfGenLine)) {
 			instruction = whileParser.parse(bfGenLine, parent, instructionRoot);
 		} else if (ifParser.isIf(bfGenLine)) {
-			instruction = ifParser.parse(bfGenLine, parent, instructionRoot);
+			instruction = ifParser.parse(bfGenLine, instructionRoot);
 		} else if (ifParser.isElse(bfGenLine)) {
 			// Retrieve this associated "if" and change its state
 			Instruction ifInstruction = instructionRoot.getLastInstruction(depth + 1);
