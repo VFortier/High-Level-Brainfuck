@@ -1,7 +1,73 @@
 # HighLevelBF
-Generate Brainfuck code by using a _slightly_ higher level language. Supports 8-bit wrapping brainfuck.
+Generate Brainfuck code by using a _slightly_ higher level language, **BfGen**. Supports 8-bit wrapping brainfuck.
 
-# Planned for Verison 1
+# Example
+A program that prints the alphabet, one character per line, but replaces every three character by "!" (i.e. C, F, I, ...).
+
+## The BfGen code (the one you write)
+
+```
+int8 letter = 'A'
+int8 countDown = 26
+int8 lineFeedAscii = 10
+int8 isPrintLetter = 2
+int8 exclamation = '!'
+
+while countDown
+	if isPrintLetter
+		print letter
+		isPrintLetter -= 1
+	else
+		print exclamation
+		isPrintLetter += 2
+
+	print lineFeedAscii
+	letter += 1
+	countDown -= 1
+```
+
+## The Generated Brainfuck code
+
+[Try it online!](https://tio.run/##SypKzMxLK03O/v9fGR1wAbFCmGOQp6OTj2uwAlQETQ2XNqXAjos4ORDbjgsEiTAS06UwD3n6BYcEhTqHePr74fAT2Fs2YMAVzaWgYGcHJEAMBQWgkB6YYWdnpwtl6NoAGbEgddpwdXZ2ejD12toQEV07qDKoGUAZkB5drliu//8B)
+
+```
+#################
+### VARIABLES ###
+#################
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++>
+++++++++++++++++++++++++++>
+++++++++++>
+++>
+>
+>
++++++++++++++++++++++++++++++++++>
+
+####################
+### INSTRUCTIONS ###
+####################
+
+<<<<<<
+[
+  >>
+  [
+    <<<.
+    >>>-
+    >>-<
+  ]
+  >+
+  [
+    >>.
+    <<<++
+    >->
+  ]
+  <<<.
+  <<+
+  >-
+]
+```
+
+# Verison 1
 
 ## Variables
 
