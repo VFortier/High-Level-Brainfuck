@@ -4,7 +4,7 @@ Generate Brainfuck code by using a _slightly_ higher level language, **BfGen**. 
 # Example
 A program that prints the alphabet, one character per line, but replaces every three character by "!" (i.e. C, F, I, ...).
 
-## The BfGen code (the one you write)
+## The BfGen Code (the one you write)
 
 ```
 int8 letter = 'A'
@@ -26,7 +26,7 @@ while countDown
 	countDown -= 1
 ```
 
-## The Generated Brainfuck code
+## The Generated Brainfuck Code
 
 [Try it online!](https://tio.run/##SypKzMxLK03O/v9fGR1wAbFCmGOQp6OTj2uwAlQETQ2XNqXAjos4ORDbjgsEiTAS06UwD3n6BYcEhTqHePr74fAT2Fs2YMAVzaWgYGcHJEAMBQWgkB6YYWdnpwtl6NoAGbEgddpwdXZ2ejD12toQEV07qDKoGUAZkB5drliu//8B)
 
