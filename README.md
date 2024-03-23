@@ -1,7 +1,7 @@
 # HighLevelBF
-Generate Brainfuck code by using a _slightly_ higher level language, **BfGen**. Supports 8-bit wrapping brainfuck.
+Generate Brainfuck code by using a _slightly_ higher level language I made up, **BfGen**. Supports 8-bit wrapping brainfuck.
 
-# Example
+# Examples
 A program that prints the alphabet, one character per line, but replaces every three character by "!" (i.e. C, F, I, ...).
 
 ## The BfGen Code (the one you write)
@@ -67,11 +67,11 @@ while countDown
 ]
 ```
 
-# Verison 1
+# Verison 1 - Features
 
 ## Variables
 
-The only available variable type is `int8` - A 8-bit integer. When assigned a char, it will take the ascii value of it.
+The only available variable type is `int8` - A 8-bit integer. When assigned a char, it will take the ascii value of the char.
 
 ### Initialisation
 
@@ -113,7 +113,7 @@ while myVar1
 
 ## Read
 
-Not supported.
+Not supported in V1.
 
 ## Print
 
